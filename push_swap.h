@@ -6,7 +6,7 @@
 /*   By: bbozorgm <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 17:25:33 by bbozorgm          #+#    #+#             */
-/*   Updated: 2022/07/09 16:18:50 by bbozorgm         ###   ########.fr       */
+/*   Updated: 2022/07/17 15:46:55 by bbozorgm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include <string.h>
 # include <stdlib.h>
 # include <unistd.h>
-
+# include "../Rank1/libft/libft.h"
 # define STDOUT 1
 # define STDERR 2
 typedef struct s_stack
@@ -33,6 +33,8 @@ typedef struct	s_operation
 	int	rb;
 	int	pa;
 	int	pb;
+	int	pvt_a;
+	int pvt_b;
 }	t_operation;
 
 typedef struct s_pivot
@@ -40,7 +42,7 @@ typedef struct s_pivot
 	int	a;
 	int b;
 }	t_pivot;
-void 	init_pivots(t_stack *lst, t_pivot *pvt);
+void 	init_pivots(t_stack *lst, t_operation *op);
 void	init_ops(t_operation *op);
 int		ft_atoi(const char *str);
 void	push(t_stack **lst, t_stack *elm);
@@ -53,12 +55,21 @@ int		rotate_forward(t_stack **lst);
 int		rotate_backward(t_stack **lst);
 int		swap(t_stack *lst);
 int		check_order(t_stack *lst);
+t_stack	*do_checks(t_stack *lst);
+
 void	b_algo(t_stack *b);
 void	a_algo(t_stack **a, t_stack *head, t_stack *tail, t_stack **b);
-
-void	algo_3(t_stack **a, int val, int n_val, int p_val);
+void	algo_3(t_stack **a);
 void	algo_5(t_stack **a, t_stack **b);
 void	algo_big(t_stack **a, t_stack **b);
+void	algo_big_a(t_stack **a, t_stack **b, int size, int *count);
+void	algo_big_b(t_stack **a, t_stack **b, int size, int *count);
+void	part_a(t_stack **a, t_stack **b, t_operation *op);
+
+
+
+
+
 int		position(t_stack *lst, int (*func)(t_stack *));
 int		minimum(t_stack *lst);
 int		maximum(t_stack *lst);
@@ -76,10 +87,10 @@ void	free_list(t_stack *lst);
 void	sa(t_stack *a);
 void	sb(t_stack *b);
 void	ss(t_stack *a, t_stack *b);
-void	pa(t_stack **dst, t_stack **src);
-void	pb(t_stack **dst, t_stack **src);
-void	ra(t_stack **a);
-void	rb(t_stack **b);
+int		pa(t_stack **dst, t_stack **src);
+int		pb(t_stack **dst, t_stack **src);
+int		ra(t_stack **a);
+int		rb(t_stack **b);
 void	rr(t_stack **a, t_stack **b);
 void	rra(t_stack **a);
 void	rrb(t_stack **b);

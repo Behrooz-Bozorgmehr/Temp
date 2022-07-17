@@ -17,7 +17,7 @@ void	sort(t_stack **a, t_stack **b)
 			if (size == 2)
 				sa(*a);
 			else if (size ==  3)
-				algo_3(a, 0, 0, 0);
+				algo_3(a);
 			//	else if (size <= 5)
 			//		algo_5(a, b);
 			else

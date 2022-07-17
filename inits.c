@@ -27,11 +27,11 @@ t_stack	*init_step_1(t_stack *list, char *arg[], int size)
 	return (NULL);
 }
 
-void    free_array(char *arr, int j)
+void    free_array(char **arr, int j)
 {
-    ft_bzero(ptr, j);
-	free(ptr);
-	ptr = NULL;	
+   // ft_bzero(*arr, j);
+	free(arr);
+	arr = NULL;	
 }
 
 t_stack	*init(int size, char *arg[])
@@ -60,7 +60,7 @@ t_stack	*init(int size, char *arg[])
 				break ;
 		}
 	}
-    do_checks(list);
+    return (do_checks(list));
 }
 
 
@@ -70,13 +70,16 @@ void	init_ops(t_operation *op)
 	op->rb = 0;
 	op->pa = 0;
 	op->pb = 0;
+	op->pvt_a = 0;
+	op->pvt_b = 0;
 }
 
-void 	init_pivots(t_stack *lst, t_pivot *pvt)
+void 	init_pivots(t_stack *lst, t_operation *op)
 {
 	int min;
 
 	min = minimum(lst);
-	pvt->a = (min + maximum(lst)) / 2;
-	pvt->b = (min + (pvt->a)) / 2;
+	op->pvt_a = (min + maximum(lst)) / 2;
+	op->pvt_b = (min + (op->pvt_a)) / 2;
 }
+

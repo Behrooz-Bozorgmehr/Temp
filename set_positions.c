@@ -59,7 +59,7 @@ void	quick_sort(int arg[], int start, int end)
 
 	if (start < end)
 	{
-		nxd = partition(arg, start, end);
+		ndx = partition(arg, start, end);
 		quick_sort(arg, start, ndx - 1);
 		quick_sort(arg, ndx + 1, end);
 	}
@@ -75,7 +75,7 @@ int	partition(int arg[], int start, int end)
 	j = start;
 	while (j <= end)
 	{
-		if (arg[j] < arg[end])
+		if (arg[j] <= arg[end])
 		{	
 			i++;
 			if (i != j)
@@ -88,5 +88,5 @@ int	partition(int arg[], int start, int end)
 		}
 		j++;
 	}
-	return (i + 1);
+	return (i);
 }

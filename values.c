@@ -4,12 +4,12 @@ int	maximum(t_stack *lst)
 {
 	int	max;
 	
-	max = lst->val;
+	max = lst->pos;
 	while (lst != NULL && lst->next != NULL)
 	{
 		lst = lst->next;
-		if (lst->val > max)
-			max = lst->val;
+		if (lst->pos > max)
+			max = lst->pos;
 	}
 	return (max);
 }
@@ -17,12 +17,12 @@ int	minimum(t_stack *lst)
 {
 	int	min;
 	
-	min = lst->val;
+	min = lst->pos;
 	while (lst != NULL && lst->next != NULL)
 	{
 		lst = lst->next;
-		if (lst->val < min)
-			min = lst->val;
+		if (lst->pos < min)
+			min = lst->pos;
 	}
 	return (min);
 }

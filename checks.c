@@ -1,7 +1,7 @@
 
 #include "push_swap.h"
 
-void    do_checks(t_stack *lst)
+t_stack	*do_checks(t_stack *lst)
 {
     if (doublicated(lst) == 0)
 	{

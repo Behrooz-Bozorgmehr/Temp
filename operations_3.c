@@ -6,7 +6,7 @@
 /*   By: bbozorgm <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 18:13:35 by bbozorgm          #+#    #+#             */
-/*   Updated: 2022/07/05 20:32:20 by bbozorgm         ###   ########.fr       */
+/*   Updated: 2022/07/17 12:51:10 by bbozorgm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,14 @@ int	pop_push(t_stack **dst, t_stack **src)
 		if ((*src) != NULL)
 			(*src)->prev = lst_last(*src);
 		if (*dst != NULL)
-			lst_add_front(dst, lst_new(value));
+		{	lst_add_front(dst, lst_new(value));
+			(*dst)->pos = head->pos;
+		}
 		else
+		{
 			*dst = lst_new(value);
+			(*dst)->pos = head->pos;
+		}
 		free(head);
 		head = NULL;
 		return (1);

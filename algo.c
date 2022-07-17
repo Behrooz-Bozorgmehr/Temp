@@ -6,7 +6,7 @@
 /*   By: bbozorgm <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 15:01:30 by bbozorgm          #+#    #+#             */
-/*   Updated: 2022/07/09 16:18:53 by bbozorgm         ###   ########.fr       */
+/*   Updated: 2022/07/17 16:11:49 by bbozorgm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "push_swap.h"
@@ -55,8 +55,13 @@ void	a_algo(t_stack **a, t_stack *head, t_stack *tail, t_stack **b)
 	}
 }
 */
-void	algo_3(t_stack **a, int val, int n_val, int p_val)
+void	algo_3(t_stack **a)
 {
+	write(1, "in_algo_3\n", 10);
+	int	val;
+	int n_val;
+	int p_val;
+
 	val = (*a)->val;
 	n_val = (*a)->next->val;
 	p_val = (*a)->prev->val;
@@ -185,27 +190,28 @@ void	algo_big(t_stack **a, t_stack **b)
 
 */
 
-void	part_a(t_list	**a, t_list	**b, t_operation *op, t_pivot *pvt)
+void	part_a(t_stack	**a, t_stack	**b, t_operation *op)
 {
-	if (a->pos > pvt->a)
+	if ((*a)->pos > op->pvt_a)
 	{
-		ra(a);
 		op->ra++;
+	   	ra(a);
 	}	
 	else
 	{
-		pop_push(b, a);
 		op->pb++;
-		if (b->pos > pvt->b)
+	   	pb(b, a);
+		if ((*b)->pos > op->pvt_b)
 		{
-			rb(b);
 			op->rb++;
+		    rb(b);
 		}
 	}
 }
 
-void	reverse_a(t_list	*a, t_list	*b, t_nb_oper	*op, int	*count)
+void	reverse_a(t_stack	**a, t_stack	**b, t_operation	*op, int	*count)
 {
+	write(1, "in_reverse_a\n", 13);
 	int	i;
 	int	j;
 
@@ -226,8 +232,9 @@ void	reverse_a(t_list	*a, t_list	*b, t_nb_oper	*op, int	*count)
 }
 
 
-static void	reverse_ra(t_list	*a, t_list	*b, t_nb_oper	*op)
+void	reverse_ra(t_stack	**a, t_stack	**b, t_operation	*op)
 {
+	write(1, "in_reverse_ra\n", 14);
 	int	i;
 	int	j;
 
@@ -239,8 +246,9 @@ static void	reverse_ra(t_list	*a, t_list	*b, t_nb_oper	*op)
 		ra(a);
 }
 
-void	reverse_b(t_list	*a, t_list	*b, t_nb_oper	*op, int	*count)
+void	reverse_b(t_stack	**a, t_stack	**b, t_operation	*op, int	*count)
 {
+	write(1, "in_reverse_b\n", 13);
 	int	i;
 	int	j;
 
@@ -261,18 +269,19 @@ void	reverse_b(t_list	*a, t_list	*b, t_nb_oper	*op, int	*count)
 	}
 }
 
-void	part_b(t_list	**a, t_list	**b, t_operations *op, t_pivot *pvt)
+void	part_b(t_stack	**a, t_stack	**b, t_operation *op)
 {
-	if (b->pos <= pvt->b)
+	write(1, "in_part_b\n", 10);
+	if ((*b)->pos <= op->pvt_b)
 	{
-		rb(b);
+		 rb(b);
 		op->rb++;
 	}
 	else
 	{	
-		pop_push(a, b);
+		pa(a, b);
 		op->pa++;
-		if (a->pos <= pvt->a)
+		if ((*a)->pos <= op->pvt_a)
 		{
 			ra(a);
 			op->ra++;
@@ -280,11 +289,11 @@ void	part_b(t_list	**a, t_list	**b, t_operations *op, t_pivot *pvt)
 	}
 }
 
-void	reverse_rb(t_list	**a, t_list	**b, t_nb_oper	*op)
+void	reverse_rb(t_stack	**a, t_stack**b, t_operation	*op)
 {
 	int	i;
 	int	j;
-
+	write(1, "in_reverse_rb", 15);
 	i = op->ra;
 	j = op->rb - i;
 	while (i--)
@@ -293,47 +302,52 @@ void	reverse_rb(t_list	**a, t_list	**b, t_nb_oper	*op)
 		rb(b);
 }
 
-void	algo_big_b(t_list **a, t_list **b, int size, int *count)
+void	algo_big_b(t_stack **a, t_stack **b, int size, int *count)
 {
-	t_operation	*op;
-	t_pivot		*pvt;
+	t_operation	op;
+	t_pivot		pvt;
 	int			i;
 
 	(*count)++;
 	if (size == 3)
+	{
 		algo_3(b);
-	init_ops(op);
-	init_pivots(a, pvt);
+		return ;
+	}
+	init_ops(&op);
+	init_pivots(*b, &op);
 	i = size;
-	while (i--)
-		part_b(a, b, op, pvt);
-	sort_a(a, b, op.pa - op.ra, count);
+	while (i-- )
+		part_b(a, b, &op);
+	algo_big_a(a, b, op.pa - op.ra, count);
 	if (op.ra > op.rb)
-		reverse_ra(a, b, op);
-	else
-		reverse_rb(a, b, op);
+		reverse_ra(a, b, &op);
+	else //if (op.ra < op.rb)
+		reverse_rb(a, b, &op);
 	algo_big_a(a, b, op.ra, count);
 	algo_big_b(a, b, op.rb, count);
 }
 
-void	algo_big_a(t_list **a, t_list **b, int size, int *count)
+void	algo_big_a(t_stack **a, t_stack **b, int size, int *count)
 {
-	t_operation	*op;
-	t_pivot		*pvt;
+	t_operation	op;
+	t_pivot		pvt;
 	int			i;
-
 	if (size == 3)
+	{
 		algo_3(a);
-	init_ops(op);
-	init_pivots(a, pvt);
-	i = size;
-	while (i--)
-		part_a(a, b, op);
+		return ;
+	}
+	init_ops(&op);
+	init_pivots(*a, &op);
+		i = size;
+	while (i-- )
+		part_a(a, b, &op);
 	if (op.ra > op.rb)
-		reverse_a(a, b, op, count);
-	else
-		reverse_b(a, b, op, count);
-	algo_big_a(a, b, op->ra, count);
-	algo_big_b(a, b, op->rb, count);
-	algo_big_b(a, b, op->pb - op->rb, count);
+		reverse_a(a, b, &op, count);
+	else if (op.ra < op.rb)
+		reverse_b(a, b, &op, count);
+	algo_big_a(a, b, op.ra, count);
+	algo_big_b(a, b, op.rb, count);
+	algo_big_b(a, b, op.pb - op.rb, count);
 }

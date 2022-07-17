@@ -6,7 +6,7 @@
 /*   By: bbozorgm <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/17 17:46:07 by bbozorgm          #+#    #+#             */
-/*   Updated: 2022/07/05 19:15:41 by bbozorgm         ###   ########.fr       */
+/*   Updated: 2022/07/17 12:51:03 by bbozorgm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,18 +33,24 @@ void	ss(t_stack *a, t_stack *b)
 }
 
 // source is "b" destination is "a"
-void	pa(t_stack **a, t_stack **b)
+int	pa(t_stack **a, t_stack **b)
 {
 	if (pop_push(a, b) == 1)
+	{
 		write(STDOUT, "pa\n", 3);
+		return (1);
+	}
+	return (0);
 }
 
 // source is "a" destination is "b"
-void	pb(t_stack **b, t_stack **a)
+int	pb(t_stack **b, t_stack **a)
 {
 	if (pop_push(b, a) == 1)
 	{
 		write(STDOUT, "pb\n", 3);
-		b_algo(*b);
+		return (1);
+	//	b_algo(*b);
 	}
+	return (0);
 }

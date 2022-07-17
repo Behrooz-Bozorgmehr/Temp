@@ -6,22 +6,30 @@
 /*   By: bbozorgm <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 18:47:45 by bbozorgm          #+#    #+#             */
-/*   Updated: 2022/07/05 19:15:44 by bbozorgm         ###   ########.fr       */
+/*   Updated: 2022/07/17 12:32:52 by bbozorgm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	ra(t_stack **a)
+int	ra(t_stack **a)
 {
 	if (rotate_forward(a) == 1)
+	{
 		write(STDOUT, "ra\n", 3);
+		return (1);
+	}
+	return (0);
 }
 
-void	rb(t_stack **b)
+int	rb(t_stack **b)
 {
 	if (rotate_forward(b) == 1)
+	{
 		write(STDOUT, "rb\n", 3);
+		return (1);
+	}
+	return (0);
 }
 
 void	rr(t_stack **a, t_stack **b)
