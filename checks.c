@@ -34,3 +34,22 @@ int	check_order(t_stack *lst)
 	}
 	return (sorted);
 }
+
+int	check_reverse_order(t_stack *lst)
+{
+	int sorted;
+
+	sorted = 1;
+	while (lst->next != NULL)
+	{
+		if (lst->val > lst->next->val)
+			sorted = 1;
+		else
+		{
+			sorted = 0;
+			return (sorted);
+		}
+		lst = lst->next;
+	}
+	return (sorted);
+}

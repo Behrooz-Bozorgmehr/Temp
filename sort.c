@@ -18,8 +18,8 @@ void	sort(t_stack **a, t_stack **b)
 				sa(*a);
 			else if (size ==  3)
 				algo_3(a);
-			//	else if (size <= 5)
-			//		algo_5(a, b);
+			else if (size <= 5)
+				algo_5(a, b);
 			else
 				algo_big_a(a, b, size, count);
 		}

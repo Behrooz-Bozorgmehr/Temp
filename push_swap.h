@@ -6,7 +6,7 @@
 /*   By: bbozorgm <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 17:25:33 by bbozorgm          #+#    #+#             */
-/*   Updated: 2022/07/17 15:46:55 by bbozorgm         ###   ########.fr       */
+/*   Updated: 2022/07/20 19:57:34 by bbozorgm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ int		rotate_forward(t_stack **lst);
 int		rotate_backward(t_stack **lst);
 int		swap(t_stack *lst);
 int		check_order(t_stack *lst);
+int		check_reverse_order(t_stack *lst);
 t_stack	*do_checks(t_stack *lst);
 
 void	b_algo(t_stack *b);

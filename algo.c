@@ -6,7 +6,7 @@
 /*   By: bbozorgm <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 15:01:30 by bbozorgm          #+#    #+#             */
-/*   Updated: 2022/07/17 16:11:49 by bbozorgm         ###   ########.fr       */
+/*   Updated: 2022/07/20 20:47:41 by bbozorgm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "push_swap.h"
@@ -55,9 +55,41 @@ void	a_algo(t_stack **a, t_stack *head, t_stack *tail, t_stack **b)
 	}
 }
 */
+void	algo_3_b(t_stack **b)
+{
+//	print(NULL, *b);
+//	write(1, "in_algo_b\n", 10); 
+	int	val;
+	int n_val;
+	int p_val;
+
+	val = (*b)->val;
+	n_val = (*b)->next->val;
+	p_val = (*b)->prev->val;
+	if (lst_size(*b) < 3 && val < n_val)
+		sb(*b);
+	else if (val < p_val && n_val >p_val)
+		rb(b);
+	else if (val < n_val && p_val >n_val)
+	{
+		rb(b);
+		sb(*b);
+	}
+	else if (val < n_val && val > p_val)
+	   sb(*b);
+	else if (val > n_val && n_val < p_val)
+		rrb(b);
+	else if (val > n_val && n_val < p_val)
+	{
+		rrb(b);
+		sb(*b);
+	}
+//	print(NULL, *b);
+}
+
 void	algo_3(t_stack **a)
 {
-	write(1, "in_algo_3\n", 10);
+//	write(1, "in_algo_3\n", 10);
 	int	val;
 	int n_val;
 	int p_val;
@@ -65,7 +97,9 @@ void	algo_3(t_stack **a)
 	val = (*a)->val;
 	n_val = (*a)->next->val;
 	p_val = (*a)->prev->val;
-	if (val < p_val && n_val >p_val)
+	if (lst_size(*a) < 3 && val > n_val)
+		sa(*a);
+	else if (val < p_val && n_val >p_val)
 	{
 		rra(a);
 		sa(*a);
@@ -85,6 +119,51 @@ void	algo_3(t_stack **a)
 		rra(a);
 	}
 }	
+
+void	algo_5_b(t_stack **b, t_stack **a)
+{
+	int	size;
+	int	i;
+
+	size = lst_size(*b);
+	if (check_reverse_order(*b) == 0 ) 
+	{
+		i = size;
+		while (i-- > 3)
+			pa(a, b);
+		if ((*a)->val > (*a)->next->val)
+			sa(*a);
+		algo_3_b(b);
+		while (size != lst_size(*b))
+		{
+			if ((*a)->val < lst_last(*b)->val)
+			{
+				pb(b, a);
+				rb(b);
+			}
+			else if ((*a)->val < lst_last(*b)->prev->val)
+			{
+				rrb(b);
+				pb(b, a);
+				rb(b);
+				rb(b);
+			}
+			else if ((*a)->val < (*b)->next->val)
+			{
+				rb(b);
+				rb(b);
+				pb(b, a);
+				rrb(b);
+				rrb(b);
+			}
+			else if ((*a)->val < (*b)->val)
+			{
+				pb(b, a);
+				sb(*b);
+			}
+		}
+	}
+}
 
 void	algo_5(t_stack **a, t_stack **b)
 {
@@ -211,7 +290,7 @@ void	part_a(t_stack	**a, t_stack	**b, t_operation *op)
 
 void	reverse_a(t_stack	**a, t_stack	**b, t_operation	*op, int	*count)
 {
-	write(1, "in_reverse_a\n", 13);
+//	write(1, "in_reverse_a\n", 13);
 	int	i;
 	int	j;
 
@@ -234,7 +313,7 @@ void	reverse_a(t_stack	**a, t_stack	**b, t_operation	*op, int	*count)
 
 void	reverse_ra(t_stack	**a, t_stack	**b, t_operation	*op)
 {
-	write(1, "in_reverse_ra\n", 14);
+//	write(1, "in_reverse_ra\n", 14);
 	int	i;
 	int	j;
 
@@ -248,7 +327,7 @@ void	reverse_ra(t_stack	**a, t_stack	**b, t_operation	*op)
 
 void	reverse_b(t_stack	**a, t_stack	**b, t_operation	*op, int	*count)
 {
-	write(1, "in_reverse_b\n", 13);
+//	write(1, "in_reverse_b\n", 13);
 	int	i;
 	int	j;
 
@@ -271,7 +350,7 @@ void	reverse_b(t_stack	**a, t_stack	**b, t_operation	*op, int	*count)
 
 void	part_b(t_stack	**a, t_stack	**b, t_operation *op)
 {
-	write(1, "in_part_b\n", 10);
+//	write(1, "in_part_b\n", 10);
 	if ((*b)->pos <= op->pvt_b)
 	{
 		 rb(b);
@@ -293,7 +372,7 @@ void	reverse_rb(t_stack	**a, t_stack**b, t_operation	*op)
 {
 	int	i;
 	int	j;
-	write(1, "in_reverse_rb", 15);
+//	write(1, "in_reverse_rb", 15);
 	i = op->ra;
 	j = op->rb - i;
 	while (i--)
@@ -301,17 +380,52 @@ void	reverse_rb(t_stack	**a, t_stack**b, t_operation	*op)
 	while (j--)
 		rb(b);
 }
+void	uno_dos_tres(t_stack **a, t_stack **b, int size, int flag)
+{
+	if (size <= 3)
+	{
+		if (flag == 'A')
+			algo_3(a);
+		else
+			algo_3_b(b);
+	}
+		
+}
 
+int	small_nbr(t_stack **a, t_stack **b, int size, int flag)
+{
+	if (flag == 'A' && size <= 5)
+	{
+		if (size <= 3 )
+			algo_3(a);
+		else
+			algo_5(a, b);
+	//	while ((*a)->val < (*b)->val )
+	//		pb(b, a);
+		return (1);
+	}
+	else if (flag == 'B' && size <= 5) 
+	{
+		if (size <= 3)
+			algo_3_b(b);
+		else
+			algo_5_b(b, a);
+		while (*b != NULL)
+			pa(a, b);
+		return (1);
+	}
+	return (0);
+}
 void	algo_big_b(t_stack **a, t_stack **b, int size, int *count)
 {
+//	write(1, "in_algo_big_b\n", 14);
 	t_operation	op;
 	t_pivot		pvt;
 	int			i;
 
 	(*count)++;
-	if (size == 3)
+	if (small_nbr(a,b, size, 'B'))
 	{
-		algo_3(b);
 		return ;
 	}
 	init_ops(&op);
@@ -330,12 +444,12 @@ void	algo_big_b(t_stack **a, t_stack **b, int size, int *count)
 
 void	algo_big_a(t_stack **a, t_stack **b, int size, int *count)
 {
+//	write(1, "in_algo_big_a\n",14);
 	t_operation	op;
 	t_pivot		pvt;
 	int			i;
-	if (size == 3)
+	if (small_nbr(a, b, size, 'A'))
 	{
-		algo_3(a);
 		return ;
 	}
 	init_ops(&op);
@@ -345,7 +459,7 @@ void	algo_big_a(t_stack **a, t_stack **b, int size, int *count)
 		part_a(a, b, &op);
 	if (op.ra > op.rb)
 		reverse_a(a, b, &op, count);
-	else if (op.ra < op.rb)
+	else //if (op.ra < op.rb)
 		reverse_b(a, b, &op, count);
 	algo_big_a(a, b, op.ra, count);
 	algo_big_b(a, b, op.rb, count);
